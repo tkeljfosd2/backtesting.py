@@ -684,7 +684,7 @@ class _Broker:
         self.trades: List[Trade] = []
         self.position = Position(self)
         self.closed_trades: List[Trade] = []
-        print("これは機能削減版のBacktestingです")
+
 
     def __repr__(self):
         return f'<Broker: {self._cash:.0f}{self.position.pl:+.1f} ({len(self.trades)} trades)>'
@@ -994,6 +994,8 @@ class Backtest:
                  hedging=False,
                  exclusive_orders=False
                  ):
+        print("これは機能削減版のBacktesting")
+
         """
         Initialize a backtest. Requires data and a strategy to test.
 
@@ -1158,12 +1160,12 @@ class Backtest:
 
             for i in range(start, len(self._data)):
                 # Prepare data and indicators for `next` call
-                '''
+                #'''
                 data._set_length(i + 1)
                 for attr, indicator in indicator_attrs:
                     # Slice indicator on the last dimension (case of 2d indicator)
                     setattr(strategy, attr, indicator[..., :i + 1])
-                '''
+                #'''
                 # Handle orders processing and broker stuff
                 try:
                     broker.next()
@@ -1184,9 +1186,9 @@ class Backtest:
 
             # Set data back to full length
             # for future `indicator._opts['data'].index` calls to work
-            '''
+            #'''
             data._set_length(len(self._data))
-            '''
+            #'''
             equity = pd.Series(broker._equity).bfill().fillna(broker._cash).values
             self._results = compute_stats(
                 trades=broker.closed_trades,
