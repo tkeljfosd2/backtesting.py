@@ -1169,13 +1169,13 @@ class Backtest:
                     # Slice indicator on the last dimension (case of 2d indicator)
                     setattr(strategy, attr, indicator[..., :i + 1])
                 '''
-                '''
+
                 # Handle orders processing and broker stuff
                 try:
                     broker.next()
                 except _OutOfMoneyError:
                     break
-                '''
+                
                 # Next tick, a moment before bar close
                 strategy.next()
             else:
