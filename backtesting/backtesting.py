@@ -763,8 +763,10 @@ class _Broker:
 
     def next(self):
         pass
+        '''
         i = self._i = len(self._data) - 1
         self._process_orders()
+        '''
         '''
         # Log account equity for the equity curve
         equity = self.equity
@@ -1167,12 +1169,13 @@ class Backtest:
                     # Slice indicator on the last dimension (case of 2d indicator)
                     setattr(strategy, attr, indicator[..., :i + 1])
                 '''
+                '''
                 # Handle orders processing and broker stuff
                 try:
                     broker.next()
                 except _OutOfMoneyError:
                     break
-
+                '''
                 # Next tick, a moment before bar close
                 strategy.next()
             else:
