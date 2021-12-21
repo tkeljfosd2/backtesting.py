@@ -29,9 +29,9 @@ except ImportError:
     def _tqdm(seq, **_):
         return seq
 
-from _plotting import plot
-from _stats import compute_stats
-from _util import _as_str, _Indicator, _Data, try_
+from ._plotting import plot
+from ._stats import compute_stats
+from ._util import _as_str, _Indicator, _Data, try_
 
 __pdoc__ = {
     'Strategy.__init__': False,
