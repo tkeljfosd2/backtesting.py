@@ -763,8 +763,10 @@ class _Broker:
 
     def next(self):
         pass
+
         i = self._i = len(self._data) - 1
         self._process_orders()
+
         '''
         # Log account equity for the equity curve
         equity = self.equity
@@ -781,6 +783,7 @@ class _Broker:
         '''
 
     def _process_orders(self):
+        #print("_process_ordersから")
         data = self._data
         open, high, low = data.Open[-1], data.High[-1], data.Low[-1]
         prev_close = data.Close[-2]
@@ -803,7 +806,7 @@ class _Broker:
                 # > When the stop price is reached, a stop order becomes a market/limit order.
                 # https://www.sec.gov/fast-answers/answersstopordhtm.html
                 order._replace(stop_price=None)
-
+            
             # Determine purchase price.
             # Check if limit order can be filled.
             if order.limit:
@@ -831,7 +834,7 @@ class _Broker:
             # Determine entry/exit bar index
             is_market_order = not order.limit and not stop_price
             time_index = (self._i - 1) if is_market_order and self._trade_on_close else self._i
-
+            '''
             # If order is a SL/TP order, it should close an existing trade it was contingent upon
             if order.parent_trade:
                 trade = order.parent_trade
@@ -852,7 +855,7 @@ class _Broker:
                     assert abs(_prev_size) >= abs(size) >= 1
                     self.orders.remove(order)
                 continue
-
+            '''
             # Else this is a stand-alone trade
 
             # Adjust price to include commission (or bid-ask spread).
@@ -861,6 +864,7 @@ class _Broker:
 
             # If order size was specified proportionally,
             # precompute true size in units, accounting for margin and spread/commissions
+            '''
             size = order.size
             if -1 < size < 1:
                 size = copysign(int((self.margin_available * self._leverage * abs(size))
@@ -871,7 +875,7 @@ class _Broker:
                     continue
             assert size == round(size)
             need_size = int(size)
-
+            '''
             if not self._hedging:
                 # Fill position by FIFO closing/reducing existing opposite-facing trades.
                 # Existing trades are closed at unadjusted price, because the adjustment
@@ -994,7 +998,7 @@ class Backtest:
                  hedging=False,
                  exclusive_orders=False
                  ):
-        print("これは機能削減版のBacktestingです")
+        #print("これは機能削減版のBacktesting")
 
         """
         Initialize a backtest. Requires data and a strategy to test.
@@ -1160,12 +1164,15 @@ class Backtest:
 
             for i in range(start, len(self._data)):
                 # Prepare data and indicators for `next` call
-                #'''
+                
                 data._set_length(i + 1)
+
+                '''
                 for attr, indicator in indicator_attrs:
                     # Slice indicator on the last dimension (case of 2d indicator)
                     setattr(strategy, attr, indicator[..., :i + 1])
-                #'''
+                '''
+
                 # Handle orders processing and broker stuff
                 try:
                     broker.next()
@@ -1186,9 +1193,9 @@ class Backtest:
 
             # Set data back to full length
             # for future `indicator._opts['data'].index` calls to work
-            #'''
+
             data._set_length(len(self._data))
-            #'''
+
             equity = pd.Series(broker._equity).bfill().fillna(broker._cash).values
             self._results = compute_stats(
                 trades=broker.closed_trades,
