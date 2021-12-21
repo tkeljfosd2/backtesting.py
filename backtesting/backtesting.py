@@ -763,10 +763,10 @@ class _Broker:
 
     def next(self):
         pass
-        '''
+        
         i = self._i = len(self._data) - 1
         self._process_orders()
-        '''
+
         '''
         # Log account equity for the equity curve
         equity = self.equity
@@ -1164,11 +1164,11 @@ class Backtest:
                 # Prepare data and indicators for `next` call
 
                 data._set_length(i + 1)
-
+                '''
                 for attr, indicator in indicator_attrs:
                     # Slice indicator on the last dimension (case of 2d indicator)
                     setattr(strategy, attr, indicator[..., :i + 1])
-                
+                '''
 
                 # Handle orders processing and broker stuff
                 try:
