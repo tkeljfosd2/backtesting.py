@@ -795,7 +795,7 @@ class _Broker:
             # Related SL/TP order was already removed
             if order not in self.orders:
                 continue
-            '''
+
             # Check if stop condition was hit
             stop_price = order.stop
             if stop_price:
@@ -806,7 +806,7 @@ class _Broker:
                 # > When the stop price is reached, a stop order becomes a market/limit order.
                 # https://www.sec.gov/fast-answers/answersstopordhtm.html
                 order._replace(stop_price=None)
-            '''
+            
             # Determine purchase price.
             # Check if limit order can be filled.
             if order.limit:
