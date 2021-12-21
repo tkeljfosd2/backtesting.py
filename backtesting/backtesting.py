@@ -761,9 +761,10 @@ class _Broker:
         return max(0, self.equity - margin_used)
 
     def next(self):
+        pass
         i = self._i = len(self._data) - 1
         self._process_orders()
-
+        '''
         # Log account equity for the equity curve
         equity = self.equity
         self._equity[i] = equity
@@ -776,6 +777,7 @@ class _Broker:
             self._cash = 0
             self._equity[i:] = 0
             raise _OutOfMoneyError
+        '''
 
     def _process_orders(self):
         data = self._data
