@@ -834,7 +834,7 @@ class _Broker:
             # Determine entry/exit bar index
             is_market_order = not order.limit and not stop_price
             time_index = (self._i - 1) if is_market_order and self._trade_on_close else self._i
-            '''
+
             # If order is a SL/TP order, it should close an existing trade it was contingent upon
             if order.parent_trade:
                 trade = order.parent_trade
@@ -855,7 +855,7 @@ class _Broker:
                     assert abs(_prev_size) >= abs(size) >= 1
                     self.orders.remove(order)
                 continue
-            '''
+            
             # Else this is a stand-alone trade
 
             # Adjust price to include commission (or bid-ask spread).
@@ -933,7 +933,7 @@ class _Broker:
 
             # Order processed
             self.orders.remove(order)
-            
+
         if reprocess_orders:
             self._process_orders()
 
