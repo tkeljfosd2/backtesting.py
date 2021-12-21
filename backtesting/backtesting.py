@@ -783,7 +783,7 @@ class _Broker:
         '''
 
     def _process_orders(self):
-        print("_process_ordersから")
+        #print("_process_ordersから")
         data = self._data
         open, high, low = data.Open[-1], data.High[-1], data.Low[-1]
         prev_close = data.Close[-2]
@@ -795,7 +795,7 @@ class _Broker:
             # Related SL/TP order was already removed
             if order not in self.orders:
                 continue
-
+            '''
             # Check if stop condition was hit
             stop_price = order.stop
             if stop_price:
@@ -806,7 +806,7 @@ class _Broker:
                 # > When the stop price is reached, a stop order becomes a market/limit order.
                 # https://www.sec.gov/fast-answers/answersstopordhtm.html
                 order._replace(stop_price=None)
-
+            '''
             # Determine purchase price.
             # Check if limit order can be filled.
             if order.limit:
@@ -834,7 +834,7 @@ class _Broker:
             # Determine entry/exit bar index
             is_market_order = not order.limit and not stop_price
             time_index = (self._i - 1) if is_market_order and self._trade_on_close else self._i
-
+            '''
             # If order is a SL/TP order, it should close an existing trade it was contingent upon
             if order.parent_trade:
                 trade = order.parent_trade
@@ -855,7 +855,7 @@ class _Broker:
                     assert abs(_prev_size) >= abs(size) >= 1
                     self.orders.remove(order)
                 continue
-
+            '''
             # Else this is a stand-alone trade
 
             # Adjust price to include commission (or bid-ask spread).
@@ -864,6 +864,7 @@ class _Broker:
 
             # If order size was specified proportionally,
             # precompute true size in units, accounting for margin and spread/commissions
+            '''
             size = order.size
             if -1 < size < 1:
                 size = copysign(int((self.margin_available * self._leverage * abs(size))
@@ -874,7 +875,7 @@ class _Broker:
                     continue
             assert size == round(size)
             need_size = int(size)
-
+            '''
             if not self._hedging:
                 # Fill position by FIFO closing/reducing existing opposite-facing trades.
                 # Existing trades are closed at unadjusted price, because the adjustment
