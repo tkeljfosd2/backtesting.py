@@ -806,7 +806,7 @@ class _Broker:
                 # > When the stop price is reached, a stop order becomes a market/limit order.
                 # https://www.sec.gov/fast-answers/answersstopordhtm.html
                 order._replace(stop_price=None)
-            
+
             # Determine purchase price.
             # Check if limit order can be filled.
             if order.limit:
@@ -864,7 +864,10 @@ class _Broker:
 
             # If order size was specified proportionally,
             # precompute true size in units, accounting for margin and spread/commissions
-            '''
+
+
+            #need_size = 0
+
             size = order.size
             if -1 < size < 1:
                 size = copysign(int((self.margin_available * self._leverage * abs(size))
@@ -875,7 +878,9 @@ class _Broker:
                     continue
             assert size == round(size)
             need_size = int(size)
-            '''
+
+            need_size = 0
+
             if not self._hedging:
                 # Fill position by FIFO closing/reducing existing opposite-facing trades.
                 # Existing trades are closed at unadjusted price, because the adjustment
@@ -928,7 +933,7 @@ class _Broker:
 
             # Order processed
             self.orders.remove(order)
-
+            
         if reprocess_orders:
             self._process_orders()
 
