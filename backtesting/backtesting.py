@@ -855,7 +855,7 @@ class _Broker:
                     assert abs(_prev_size) >= abs(size) >= 1
                     self.orders.remove(order)
                 continue
-            
+
             # Else this is a stand-alone trade
 
             # Adjust price to include commission (or bid-ask spread).
@@ -866,7 +866,6 @@ class _Broker:
             # precompute true size in units, accounting for margin and spread/commissions
 
 
-            #need_size = 0
 
             size = order.size
             if -1 < size < 1:
@@ -879,7 +878,6 @@ class _Broker:
             assert size == round(size)
             need_size = int(size)
 
-            need_size = 0
 
             if not self._hedging:
                 # Fill position by FIFO closing/reducing existing opposite-facing trades.
