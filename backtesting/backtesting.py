@@ -783,6 +783,7 @@ class _Broker:
         '''
 
     def _process_orders(self):
+        print("_process_ordersから")
         data = self._data
         open, high, low = data.Open[-1], data.High[-1], data.Low[-1]
         prev_close = data.Close[-2]
