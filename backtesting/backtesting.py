@@ -763,7 +763,7 @@ class _Broker:
 
     def next(self):
         pass
-        
+
         i = self._i = len(self._data) - 1
         self._process_orders()
 
@@ -1162,8 +1162,9 @@ class Backtest:
 
             for i in range(start, len(self._data)):
                 # Prepare data and indicators for `next` call
-
+                '''
                 data._set_length(i + 1)
+                '''
                 '''
                 for attr, indicator in indicator_attrs:
                     # Slice indicator on the last dimension (case of 2d indicator)
@@ -1190,9 +1191,9 @@ class Backtest:
 
             # Set data back to full length
             # for future `indicator._opts['data'].index` calls to work
-            #'''
+            '''
             data._set_length(len(self._data))
-            #'''
+            '''
             equity = pd.Series(broker._equity).bfill().fillna(broker._cash).values
             self._results = compute_stats(
                 trades=broker.closed_trades,
